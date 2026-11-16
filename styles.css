@@ -24,6 +24,8 @@
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
+[hidden]{display:none !important}
+
 html{-webkit-text-size-adjust:100%}
 
 body{
@@ -47,7 +49,7 @@ button{font-family:inherit;font-size:inherit;color:inherit;cursor:pointer}
 .app-header{
   position:sticky;top:0;z-index:20;
   display:flex;align-items:center;justify-content:space-between;gap:12px;
-  padding:calc(env(safe-area-inset-top) + 14px) 18px 12px;
+  padding:calc(env(safe-area-inset-top) + 14px) max(18px, calc(50% - 320px)) 12px;
   background:rgba(253,248,243,.92);
   backdrop-filter:saturate(180%) blur(14px);
   -webkit-backdrop-filter:saturate(180%) blur(14px);
@@ -282,7 +284,7 @@ input::placeholder{color:#C4B8AF}
 .tabbar{
   position:fixed;left:0;right:0;bottom:0;z-index:30;
   display:flex;justify-content:space-around;align-items:stretch;
-  padding:6px 8px calc(env(safe-area-inset-bottom) + 6px);
+  padding:6px max(8px, calc(50% - 320px)) calc(env(safe-area-inset-bottom) + 6px);
   background:rgba(255,252,249,.94);
   backdrop-filter:saturate(180%) blur(16px);
   -webkit-backdrop-filter:saturate(180%) blur(16px);
@@ -320,6 +322,13 @@ input::placeholder{color:#C4B8AF}
 .sheet-head h2{font-size:17px}
 .sheet .form{display:flex;flex-direction:column;gap:12px}
 .sheet .row2 .btn{width:100%}
+.quickdates{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.quickdates button{
+  border:1px solid var(--line);background:#FFFDFB;border-radius:10px;
+  padding:7px 11px;font-size:12.5px;font-weight:700;color:var(--ink-2);
+}
+.quickdates button:active{background:var(--line-2)}
+
 .sheet .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--line-2);padding:4px;border-radius:13px}
 .sheet .seg button{
   border:0;background:transparent;padding:10px 4px;border-radius:10px;font-size:13.5px;font-weight:700;color:var(--ink-2);

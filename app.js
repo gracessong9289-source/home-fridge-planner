@@ -131,6 +131,7 @@
   var panels = { fridge: $('panel-fridge'), meals: $('panel-meals'), money: $('panel-money') };
   function setTab(name) {
     ui.tab = name;
+    ui.activeMeal = null;
     Object.keys(panels).forEach(function (k) { panels[k].hidden = k !== name; });
     document.querySelectorAll('.tab').forEach(function (t) {
       var on = t.dataset.tab === name;
@@ -292,6 +293,13 @@
           '<label class="field"><span>수량</span><input name="qty" value="' + esc(cur.qty) + '" placeholder="예: 1단"></label>' +
           '<label class="field"><span>유통기한</span><input type="date" name="expiry" value="' + (cur.expiry || '') + '"></label>' +
         '</div>' +
+        '<div class="quickdates" id="quick-dates">' +
+          '<button type="button" data-days="0">오늘까지</button>' +
+          '<button type="button" data-days="1">내일</button>' +
+          '<button type="button" data-days="3">3일 뒤</button>' +
+          '<button type="button" data-days="7">1주 뒤</button>' +
+          '<button type="button" data-days="clear">기한 없음</button>' +
+        '</div>' +
         '<div class="row2">' +
           '<button class="btn primary" type="submit">' + (isEdit ? '저장' : '추가') + '</button>' +
           '<button class="btn ghost" type="button" data-close>취소</button>' +
@@ -303,6 +311,13 @@
           var b = e.target.closest('button[data-loc]'); if (!b) return;
           loc = b.dataset.loc;
           body.querySelectorAll('#loc-seg button').forEach(function (x) { x.classList.toggle('on', x === b); });
+        });
+        body.querySelector('#quick-dates').addEventListener('click', function (ev) {
+          var b = ev.target.closest('button[data-days]'); if (!b) return;
+          var dEl = body.querySelector('input[name=expiry]');
+          var v = b.dataset.days;
+          dEl.value = v === 'clear' ? '' : iso(addDays(new Date(), Number(v)));
+          try { dEl.blur(); } catch (e) {}
         });
         body.querySelector('#item-form').addEventListener('submit', function (ev) {
           ev.preventDefault();
