@@ -400,14 +400,15 @@
     state.items.forEach(function (it) {
       var d = it.expiry ? dayDiff(it.expiry, todayISO()) : null;
       if (d !== null && d >= 0 && d <= 3) soon.push({ it: it, d: d });
-      else if (d === null || d > 3) rest.push({ it: it, d: d });
+      else rest.push({ it: it, d: d });
     });
     soon.sort(function (a, b) { return a.d - b.d; });
     rest.sort(function (a, b) { return (a.it.name || '').localeCompare(b.it.name || '', 'ko'); });
 
     function chips(arr, cls) {
       return arr.map(function (o) {
-        var suf = o.d === null ? '' : (o.d === 0 ? ' · D-day' : ' · D-' + o.d);
+        var suf = '';
+        if (o.d !== null) suf = o.d < 0 ? ' · 만료' : (o.d === 0 ? ' · D-day' : ' · D-' + o.d);
         return '<button type="button" class="chip ing ' + cls + '" data-name="' + esc(o.it.name) + '">' +
           esc(o.it.name) + suf + '</button>';
       }).join('') || '<span class="hint">없어요</span>';
@@ -578,6 +579,7 @@
     ui.editingExp = null;
     $('exp-form-title').textContent = '식비 기록하기';
     $('exp-submit').textContent = '추가';
+    $('exp-submit').style.gridColumn = '1 / -1';
     $('exp-cancel').hidden = true;
     $('exp-edit-hint').hidden = true;
   }
@@ -591,6 +593,7 @@
     ui.editingExp = exp.id;
     $('exp-form-title').textContent = '식비 수정하기';
     $('exp-submit').textContent = '수정';
+    $('exp-submit').style.gridColumn = '';
     $('exp-cancel').hidden = false;
     $('exp-edit-hint').hidden = false;
     $('panel-money').scrollIntoView({ behavior: 'smooth', block: 'start' });
