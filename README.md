@@ -31,4 +31,9 @@ Safari로 접속 → 공유 버튼 → **홈 화면에 추가**. 앱처럼 전�
 
 ## 배포
 
-GitHub Pages (main 브랜치, `/` 경로)로 서빙되는 정적 사이트입니다. 빌드 단계가 없습니다.
+GitHub Pages로 서빙되는 정적 사이트입니다. 빌드 단계가 없습니다.
+
+- 공개 주소: https://gracessong9289-source.github.io/home-fridge-planner/
+- Pages 게시 소스: `gh-pages` 브랜치 `/` 경로
+- 따라서 내용을 고칠 때는 `main`과 `gh-pages` 두 브랜치를 같은 커밋으로 맞춰 주세요.
+  (`git push origin main && git push origin main:gh-pages`)
