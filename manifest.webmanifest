@@ -1,0 +1,17 @@
+{
+  "name": "우리집 냉장고",
+  "short_name": "냉장고",
+  "description": "냉장고 재고와 유통기한, 주간 식단표, 식비 가계부를 한 곳에서 관리하는 나만의 웹앱.",
+  "lang": "ko",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FDF8F3",
+  "theme_color": "#FDF8F3",
+  "icons": [
+    { "src": "icon-180.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

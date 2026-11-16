@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>우리집 냉장고</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FDF8F3">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="우리집 냉장고">
+<meta name="format-detection" content="telephone=no">
+<meta name="description" content="냉장고 재고와 유통기한, 주간 식단표, 식비 가계부를 한 곳에서 관리하는 나만의 웹앱.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="app-header">
+  <div class="app-head-text">
+    <h1>우리집 냉장고</h1>
+    <p class="app-date" id="head-date"></p>
+  </div>
+  <button class="icon-btn big" id="open-data" aria-label="데이터 관리">⚙️</button>
+</header>
+
+<main class="app-main">
+
+  <!-- ───────── 냉장고 재고 ───────── -->
+  <section class="panel" id="panel-fridge">
+    <div class="tabhead">
+      <h2>🧊 냉장고 재고</h2>
+      <button class="btn primary small" id="add-item">+ 품목</button>
+    </div>
+
+    <div class="statline" id="fridge-stat"></div>
+
+    <div class="filters">
+      <div class="chips" id="loc-filter" role="group" aria-label="보관 구분 필터">
+        <button class="chip on" data-loc="all">전체</button>
+        <button class="chip" data-loc="fridge">냉장</button>
+        <button class="chip" data-loc="freezer">냉동</button>
+        <button class="chip" data-loc="pantry">실온·양념</button>
+      </div>
+      <div class="chips" id="status-filter" role="group" aria-label="상태 필터">
+        <button class="chip on" data-status="all">전체</button>
+        <button class="chip" data-status="soon">임박</button>
+        <button class="chip" data-status="expired">만료</button>
+      </div>
+    </div>
+
+    <div class="sortline">
+      <span id="fridge-count"></span>
+      <label class="switchline">
+        <input type="checkbox" id="sort-name">
+        <span>이름순</span>
+      </label>
+    </div>
+
+    <div class="list" id="item-list"></div>
+  </section>
+
+  <!-- ───────── 주간 식단표 ───────── -->
+  <section class="panel" id="panel-meals" hidden>
+    <div class="tabhead">
+      <h2>🍽️ 주간 식단표</h2>
+    </div>
+
+    <div class="weeknav">
+      <button class="icon-btn" id="week-prev" aria-label="지난 주">‹</button>
+      <button class="weeklabel" id="week-label"></button>
+      <button class="icon-btn" id="week-next" aria-label="다음 주">›</button>
+    </div>
+
+    <div class="card ingredients">
+      <div class="card-head">
+        <h3>냉장고 재료 참고</h3>
+        <button class="mini-link" id="toggle-ing">접기</button>
+      </div>
+      <div id="ing-body">
+        <p class="hint">식단 칸을 먼저 누른 뒤 재료를 누르면 그 칸에 들어가요.</p>
+        <div class="ing-group">
+          <div class="ing-label">⏰ 임박 재료</div>
+          <div class="chips wrap" id="ing-soon"></div>
+        </div>
+        <div class="ing-group">
+          <div class="ing-label">그 외 재료</div>
+          <div class="chips wrap" id="ing-rest"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week" id="week-grid"></div>
+  </section>
+
+  <!-- ───────── 식비 가계부 ───────── -->
+  <section class="panel" id="panel-money" hidden>
+    <div class="tabhead">
+      <h2>💰 식비 가계부</h2>
+    </div>
+
+    <div class="weeknav">
+      <button class="icon-btn" id="month-prev" aria-label="지난 달">‹</button>
+      <button class="weeklabel" id="month-label"></button>
+      <button class="icon-btn" id="month-next" aria-label="다음 달">›</button>
+    </div>
+
+    <div class="card summary" id="money-summary"></div>
+
+    <div class="card">
+      <div class="card-head">
+        <h3 id="exp-form-title">식비 기록하기</h3>
+        <span class="mini-link" id="exp-edit-hint" hidden>수정 중</span>
+      </div>
+      <form id="exp-form" class="exp-form">
+        <div class="row2">
+          <label class="field">
+            <span>날짜</span>
+            <input type="date" name="date" required>
+          </label>
+          <label class="field">
+            <span>구분</span>
+            <select name="cat">
+              <option value="grocery">🛒 장보기</option>
+              <option value="dining">🍚 외식</option>
+              <option value="delivery">☕ 배달·카페</option>
+              <option value="etc">🧾 기타</option>
+            </select>
+          </label>
+        </div>
+        <label class="field">
+          <span>금액(원)</span>
+          <input type="number" name="amount" inputmode="numeric" min="0" step="100" placeholder="0" required>
+        </label>
+        <label class="field">
+          <span>메모</span>
+          <input type="text" name="memo" placeholder="예: 이마트 장보기">
+        </label>
+        <div class="row2">
+          <button class="btn primary" type="submit" id="exp-submit">추가</button>
+          <button class="btn ghost" type="button" id="exp-cancel" hidden>취소</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="list" id="exp-list"></div>
+  </section>
+
+</main>
+
+<nav class="tabbar" role="tablist">
+  <button class="tab on" data-tab="fridge" role="tab">
+    <span class="tab-ico">🧊</span><span class="tab-txt">냉장고</span>
+  </button>
+  <button class="tab" data-tab="meals" role="tab">
+    <span class="tab-ico">🍽️</span><span class="tab-txt">식단표</span>
+  </button>
+  <button class="tab" data-tab="money" role="tab">
+    <span class="tab-ico">💰</span><span class="tab-txt">식비</span>
+  </button>
+</nav>
+
+<!-- 공용 시트 -->
+<div class="sheet-wrap" id="sheet" aria-hidden="true">
+  <div class="sheet-backdrop" data-close></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+    <div class="sheet-grip"></div>
+    <div class="sheet-head">
+      <h2 id="sheet-title">제목</h2>
+      <button class="icon-btn" data-close aria-label="닫기">✕</button>
+    </div>
+    <div class="sheet-body" id="sheet-body"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
