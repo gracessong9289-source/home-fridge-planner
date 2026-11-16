@@ -537,7 +537,7 @@
           '<span class="dsum">' + money(daySum) + '원</span></div>';
       }
       var c = CATS[e.cat] || CATS.etc;
-      html += '<div class="exp" data-id="' + e.id + '">' +
+      html += '<div class="exp-row" data-id="' + e.id + '">' +
         '<div class="exp-ico ' + (CATS[e.cat] ? e.cat : 'etc') + '">' + c.ico + '</div>' +
         '<div class="exp-main"><div class="exp-title">' + esc(e.memo || c.label) + '</div>' +
           '<div class="exp-sub">' + c.label + '</div></div>' +
@@ -551,7 +551,7 @@
   }
 
   $('exp-list').addEventListener('click', function (e) {
-    var row = e.target.closest('.exp'); if (!row) return;
+    var row = e.target.closest('.exp-row'); if (!row) return;
     var id = row.dataset.id;
     var exp = state.expenses.find(function (x) { return x.id === id; });
     if (!exp) return;
